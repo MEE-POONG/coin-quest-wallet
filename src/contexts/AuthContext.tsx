@@ -1,7 +1,7 @@
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { User, UserRole } from '../types';
-import { mockUsers } from '../data/mockData';
+import { authService } from '../services/authService';
 
 interface AuthContextType {
   user: User | null;
@@ -20,36 +20,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   
   // Check for stored user on initial load
   useEffect(() => {
-    const storedUser = localStorage.getItem('coinQuestUser');
+    const storedUser = authService.getCurrentUser();
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      setUser(storedUser);
     }
     setIsLoading(false);
   }, []);
   
   const login = async (email: string, password: string): Promise<boolean> => {
-    // Mock authentication
     setIsLoading(true);
     
-    // Simulate network request
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    const foundUser = mockUsers.find(u => u.email === email);
-    
-    if (foundUser) {
-      setUser(foundUser);
-      localStorage.setItem('coinQuestUser', JSON.stringify(foundUser));
+    try {
+      const user = await authService.login({ email, password });
+      setUser(user);
       setIsLoading(false);
       return true;
+    } catch (error) {
+      console.error("Login failed:", error);
+      setIsLoading(false);
+      return false;
     }
-    
-    setIsLoading(false);
-    return false;
   };
   
   const logout = () => {
+    authService.logout();
     setUser(null);
-    localStorage.removeItem('coinQuestUser');
   };
   
   const isAdmin = user?.role === UserRole.ADMIN;

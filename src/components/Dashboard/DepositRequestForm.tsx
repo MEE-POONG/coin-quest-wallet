@@ -1,11 +1,10 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "../../hooks/use-toast";
-import { DISCORD_WEBHOOK_URL } from "../../constants";
+import { transactionService } from "../../services/transactionService";
 
 const DepositRequestForm = () => {
   const [amount, setAmount] = useState("");
@@ -16,54 +15,6 @@ const DepositRequestForm = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setSlipImage(e.target.files[0]);
-    }
-  };
-
-  const sendDiscordNotification = async (amount: number) => {
-    try {
-      // In a real app, this would be a secure API call through your backend
-      if (!DISCORD_WEBHOOK_URL.startsWith('http')) {
-        console.log('Discord webhook not configured');
-        return;
-      }
-
-      const payload = {
-        embeds: [{
-          title: '🔔 New Deposit Request',
-          description: `A new deposit request has been submitted.`,
-          color: 0x8B5CF6, // Purple color in hex
-          fields: [
-            {
-              name: 'Username',
-              value: 'User123', // Replace with actual username
-              inline: true
-            },
-            {
-              name: 'Amount',
-              value: `${amount} coins`,
-              inline: true
-            },
-            {
-              name: 'Date/Time',
-              value: new Date().toLocaleString(),
-              inline: true
-            },
-            {
-              name: 'Status',
-              value: '⏳ Pending Approval',
-              inline: false
-            }
-          ],
-          footer: {
-            text: 'CoinQuest Wallet | Admin Panel'
-          }
-        }]
-      };
-
-      console.log(`Sending Discord notification for deposit of ${amount} coins`);
-      // This is a stub - in a real implementation you'd call the Discord webhook
-    } catch (error) {
-      console.error('Failed to send Discord notification:', error);
     }
   };
 
@@ -81,21 +32,30 @@ const DepositRequestForm = () => {
     
     setIsLoading(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Send Discord notification in a real app
-    await sendDiscordNotification(Number(amount));
-    
-    toast({
-      title: "Deposit Request Submitted",
-      description: "Your deposit request has been sent for review.",
-    });
-    
-    // Reset form
-    setAmount("");
-    setSlipImage(null);
-    setIsLoading(false);
+    try {
+      await transactionService.createDepositRequest({
+        amount: Number(amount),
+        slipImage: slipImage
+      });
+      
+      toast({
+        title: "Deposit Request Submitted",
+        description: "Your deposit request has been sent for review.",
+      });
+      
+      // Reset form
+      setAmount("");
+      setSlipImage(null);
+    } catch (error) {
+      console.error("Deposit request error:", error);
+      toast({
+        title: "Submission Failed",
+        description: "An error occurred while submitting your deposit request.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

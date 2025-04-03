@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "../../hooks/use-toast";
+import { authService } from "../../services/authService";
 
 const RegisterForm = () => {
   const [username, setUsername] = useState("");
@@ -27,15 +28,27 @@ const RegisterForm = () => {
     
     setIsLoading(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    toast({
-      title: "Registration Started",
-      description: "A mock registration would happen here. For now, use the login with the sample credentials.",
-    });
-    
-    setIsLoading(false);
+    try {
+      await authService.register({
+        username,
+        email,
+        password
+      });
+      
+      toast({
+        title: "Registration Successful",
+        description: "Your account has been created. You can now access the dashboard.",
+      });
+    } catch (error) {
+      console.error("Registration error:", error);
+      toast({
+        title: "Registration Failed",
+        description: "An error occurred during registration. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
   
   return (

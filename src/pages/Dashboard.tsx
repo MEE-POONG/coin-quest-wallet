@@ -4,12 +4,12 @@ import AppLayout from "../components/Layout/AppLayout";
 import WalletCard from "../components/Dashboard/WalletCard";
 import TransactionList from "../components/Dashboard/TransactionList";
 import DepositRequestForm from "../components/Dashboard/DepositRequestForm";
+import WithdrawRequestForm from "../components/Dashboard/WithdrawRequestForm";
 import { useAuth } from "../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 
 const Dashboard = () => {
-  const { user } = useAuth();
+  const { user, isPremium } = useAuth();
   
   if (!user) {
     return <Navigate to="/" />;
@@ -30,18 +30,7 @@ const Dashboard = () => {
             <DepositRequestForm />
             
             {/* Withdrawal section only shown to Premium and Admin users */}
-            {(user.role === 'PREMIUM' || user.role === 'ADMIN') && (
-              <div className="mt-6">
-                <Button 
-                  className="w-full bg-nft-blue hover:bg-nft-blue/80"
-                >
-                  Request Withdrawal
-                </Button>
-                <p className="text-xs text-center text-gray-400 mt-2">
-                  Premium feature: You can request to withdraw your coins.
-                </p>
-              </div>
-            )}
+            {isPremium && <WithdrawRequestForm />}
           </div>
         </div>
       </div>

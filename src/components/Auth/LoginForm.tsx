@@ -24,17 +24,25 @@ const LoginForm = () => {
       return;
     }
     
-    const success = await login(email, password);
-    
-    if (success) {
-      toast({
-        title: "Success",
-        description: "Welcome back to CoinQuest Wallet!",
-      });
-    } else {
+    try {
+      const success = await login(email, password);
+      
+      if (success) {
+        toast({
+          title: "Success",
+          description: "Welcome back to CoinQuest Wallet!",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Invalid credentials. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
       toast({
         title: "Error",
-        description: "Invalid credentials. Please try again.",
+        description: "An error occurred during login. Please try again.",
         variant: "destructive",
       });
     }
