@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import LoginForm from "../components/Auth/LoginForm";
 import RegisterForm from "../components/Auth/RegisterForm";
 import { useAuth } from "../contexts/AuthContext";
-import { Coins } from "lucide-react";
+import { Coins, Gift } from "lucide-react";
 import { useToast } from "../hooks/use-toast";
 
 const Index = () => {
@@ -16,7 +15,6 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState("login");
   const { toast } = useToast();
 
-  // If user is logged in, redirect to dashboard
   React.useEffect(() => {
     if (user) {
       navigate("/dashboard");
@@ -32,7 +30,6 @@ const Index = () => {
   
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Hero Section */}
       <div className="relative flex-grow flex flex-col items-center justify-center px-4 py-20">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.15),transparent_70%)]"></div>
         
@@ -93,7 +90,6 @@ const Index = () => {
           </Card>
         </div>
         
-        {/* Floating features */}
         <div className="hidden md:flex absolute top-40 left-10 animate-float p-4 glass-card rounded-xl border border-nft-purple/20 shadow-neon">
           <div className="flex items-center gap-2">
             <Coins className="text-nft-orange w-6 h-6" />
@@ -109,7 +105,6 @@ const Index = () => {
         </div>
       </div>
       
-      {/* Footer */}
       <footer className="bg-black/30 backdrop-blur-sm border-t border-white/10 py-4">
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-2">
