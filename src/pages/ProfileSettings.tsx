@@ -39,16 +39,27 @@ const ProfileSettings = () => {
   const onSubmit = async (data: any) => {
     try {
       setIsSubmitting(true);
-      // Here you would make an API call to update the user profile
-      // For now we'll just simulate a successful update
       
-      setTimeout(() => {
+      const success = await updateUser({
+        username: data.username,
+        bio: data.bio,
+        avatar: avatarPreview
+      });
+      
+      if (success) {
         toast({
           title: "Profile updated",
           description: "Your profile has been updated successfully.",
         });
-        setIsSubmitting(false);
-      }, 1000);
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to update profile. Please try again.",
+          variant: "destructive",
+        });
+      }
+      
+      setIsSubmitting(false);
     } catch (error) {
       toast({
         title: "Error",

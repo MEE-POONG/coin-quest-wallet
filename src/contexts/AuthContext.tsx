@@ -10,6 +10,7 @@ interface AuthContextType {
   logout: () => void;
   isAdmin: boolean;
   isPremium: boolean;
+  updateUser: (userData: Partial<User>) => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -46,12 +47,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     authService.logout();
     setUser(null);
   };
+
+  const updateUser = async (userData: Partial<User>): Promise<boolean> => {
+    if (!user) return false;
+    
+    try {
+      // Here you would make an API call to update the user
+      // For now, we'll just update the local state
+      const updatedUser = { ...user, ...userData };
+      
+      // Save to local storage
+      localStorage.setItem('meCoinsUser', JSON.stringify(updatedUser));
+      
+      // Update state
+      setUser(updatedUser);
+      return true;
+    } catch (error) {
+      console.error("Update user failed:", error);
+      return false;
+    }
+  };
   
   const isAdmin = user?.role === UserRole.ADMIN;
   const isPremium = user?.role === UserRole.PREMIUM || user?.role === UserRole.ADMIN;
   
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout, isAdmin, isPremium }}>
+    <AuthContext.Provider value={{ user, isLoading, login, logout, isAdmin, isPremium, updateUser }}>
       {children}
     </AuthContext.Provider>
   );
