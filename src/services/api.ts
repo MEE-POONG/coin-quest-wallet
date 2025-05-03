@@ -13,7 +13,7 @@ const api = axios.create({
 
 // Request interceptor to add auth token
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('coinQuestToken');
+  const token = localStorage.getItem('meCoinsToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -27,8 +27,8 @@ api.interceptors.response.use(
     // Handle common errors
     if (error.response?.status === 401) {
       // Unauthorized - clear token and redirect to login
-      localStorage.removeItem('coinQuestToken');
-      localStorage.removeItem('coinQuestUser');
+      localStorage.removeItem('meCoinsToken');
+      localStorage.removeItem('meCoinsUser');
       window.location.href = '/';
     }
     return Promise.reject(error);

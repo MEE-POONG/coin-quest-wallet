@@ -22,8 +22,8 @@ export const authService = {
   login: async (data: LoginRequest): Promise<User> => {
     try {
       const response = await api.post<LoginResponse>('/auth/login', data);
-      localStorage.setItem('coinQuestToken', response.data.token);
-      localStorage.setItem('coinQuestUser', JSON.stringify(response.data.user));
+      localStorage.setItem('meCoinsToken', response.data.token);
+      localStorage.setItem('meCoinsUser', JSON.stringify(response.data.user));
       return response.data.user;
     } catch (error) {
       console.error('Login error:', error);
@@ -34,8 +34,8 @@ export const authService = {
   register: async (data: RegisterRequest): Promise<User> => {
     try {
       const response = await api.post<LoginResponse>('/auth/register', data);
-      localStorage.setItem('coinQuestToken', response.data.token);
-      localStorage.setItem('coinQuestUser', JSON.stringify(response.data.user));
+      localStorage.setItem('meCoinsToken', response.data.token);
+      localStorage.setItem('meCoinsUser', JSON.stringify(response.data.user));
       return response.data.user;
     } catch (error) {
       console.error('Registration error:', error);
@@ -44,12 +44,12 @@ export const authService = {
   },
 
   logout: (): void => {
-    localStorage.removeItem('coinQuestToken');
-    localStorage.removeItem('coinQuestUser');
+    localStorage.removeItem('meCoinsToken');
+    localStorage.removeItem('meCoinsUser');
   },
   
   getCurrentUser: (): User | null => {
-    const user = localStorage.getItem('coinQuestUser');
+    const user = localStorage.getItem('meCoinsUser');
     return user ? JSON.parse(user) : null;
   }
 };

@@ -21,12 +21,12 @@ const Index = () => {
     }
   }, [user, navigate]);
 
-  const demoLogin = async () => {
-    toast({
-      title: "Demo Access",
-      description: "Use email: admin@coinquest.com and any password to login as admin.",
-    });
-  };
+  // const demoLogin = async () => {
+  //   toast({
+  //     title: "Demo Access",
+  //     description: "Use email: admin@coinquest.com and any password to login as admin.",
+  //   });
+  // };
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -44,7 +44,7 @@ const Index = () => {
           </div>
           
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            <span className="text-gradient">CoinQuest</span> Wallet
+            <span className="text-gradient">MeCoins</span> Wallet
           </h1>
           
           <p className="text-xl mb-8 text-gray-300 max-w-2xl mx-auto">
@@ -60,14 +60,14 @@ const Index = () => {
               Get Started
             </Button>
             
-            <Button 
+            {/* <Button 
               size="lg" 
               variant="outline" 
               className="border-nft-purple/50 hover:bg-nft-purple/20"
               onClick={demoLogin}
             >
               Demo Access
-            </Button>
+            </Button> */}
           </div>
         </div>
         
@@ -109,9 +109,9 @@ const Index = () => {
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-2">
             <Coins className="w-5 h-5 text-nft-purple" />
-            <p className="text-sm font-medium">CoinQuest Wallet</p>
+            <p className="text-sm font-medium">MeCoins Wallet</p>
           </div>
-          <p className="text-xs text-gray-400">© {new Date().getFullYear()} CoinQuest. All rights reserved.</p>
+          <p className="text-xs text-gray-400">© {new Date().getFullYear()} MeCoins. All rights reserved.</p>
         </div>
       </footer>
     </div>

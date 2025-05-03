@@ -30,7 +30,7 @@ const Dashboard = () => {
             <DepositRequestForm />
             
             {/* Withdrawal section only shown to Premium and Admin users */}
-            {isPremium && <WithdrawRequestForm />}
+            {/* {isPremium && <WithdrawRequestForm />} */}
           </div>
         </div>
       </div>

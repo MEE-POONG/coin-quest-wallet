@@ -30,7 +30,7 @@ const LoginForm = () => {
       if (success) {
         toast({
           title: "Success",
-          description: "Welcome back to CoinQuest Wallet!",
+          description: "Welcome back to MeCoins Wallet!",
         });
       } else {
         toast({

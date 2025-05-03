@@ -31,11 +31,11 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       path: "/shop",
       icon: <Package className="w-5 h-5" />,
     },
-    {
-      name: "Gifts",
-      path: "/gifts",
-      icon: <Gift className="w-5 h-5" />,
-    },
+    // {
+    //   name: "Gifts",
+    //   path: "/gifts",
+    //   icon: <Gift className="w-5 h-5" />,
+    // },
   ];
 
   const adminItems = [
@@ -53,7 +53,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         <div className="container mx-auto p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Coins className="w-8 h-8 text-nft-purple" />
-            <h1 className="text-xl font-bold text-gradient">CoinQuest</h1>
+            <h1 className="text-xl font-bold text-gradient">MeCoins</h1>
           </div>
           
           <div className="hidden md:flex items-center space-x-6">
@@ -208,9 +208,9 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-2">
             <Coins className="w-5 h-5 text-nft-purple" />
-            <p className="text-sm font-medium">CoinQuest Wallet</p>
+            <p className="text-sm font-medium">MeCoins Wallet</p>
           </div>
-          <p className="text-xs text-gray-400">© {new Date().getFullYear()} CoinQuest. All rights reserved.</p>
+          <p className="text-xs text-gray-400">© {new Date().getFullYear()} MeCoins. All rights reserved.</p>
         </div>
       </footer>
     </div>
