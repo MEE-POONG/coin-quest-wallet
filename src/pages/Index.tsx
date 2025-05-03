@@ -74,18 +74,18 @@ const Index = () => {
         <div className="w-full max-w-md">
           <Card className="glass-card nft-gradient-border">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid grid-cols-2 mb-4">
+              <TabsList className="grid grid-cols-1 mb-4">
                 <TabsTrigger value="login">Login</TabsTrigger>
-                <TabsTrigger value="register">Register</TabsTrigger>
+                {/* <TabsTrigger value="register">Register</TabsTrigger> */}
               </TabsList>
               
               <TabsContent value="login" className="p-6 pt-2">
                 <LoginForm />
               </TabsContent>
               
-              <TabsContent value="register" className="p-6 pt-2">
+              {/* <TabsContent value="register" className="p-6 pt-2">
                 <RegisterForm />
-              </TabsContent>
+              </TabsContent> */}
             </Tabs>
           </Card>
         </div>
