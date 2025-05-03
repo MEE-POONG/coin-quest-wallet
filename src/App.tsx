@@ -10,8 +10,9 @@ import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import Shop from "./pages/Shop";
 import Gifts from "./pages/Gifts";
+import ProfileSettings from "./pages/ProfileSettings";
 import NotFound from "./pages/NotFound";
-import React from "react"; // Added React import
+import React from "react"; 
 
 // Create a new QueryClient instance in a React component
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
               <Route path="/admin" element={<Admin />} />
               <Route path="/shop" element={<Shop />} />
               <Route path="/gifts" element={<Gifts />} />
+              <Route path="/profile" element={<ProfileSettings />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

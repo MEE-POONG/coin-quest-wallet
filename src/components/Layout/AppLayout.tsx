@@ -189,6 +189,19 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             <Button
               variant="ghost"
               size="lg"
+              className="flex items-center gap-3 text-xl"
+              onClick={() => {
+                navigate("/profile");
+                setIsMobileMenuOpen(false);
+              }}
+            >
+              <UserIcon className="w-5 h-5" />
+              Profile Settings
+            </Button>
+            
+            <Button
+              variant="ghost"
+              size="lg"
               className="flex items-center gap-3 text-xl text-red-400 hover:text-red-300"
               onClick={handleLogout}
             >
