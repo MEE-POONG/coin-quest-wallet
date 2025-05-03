@@ -1,4 +1,3 @@
-
 export enum UserRole {
   ADMIN = 'ADMIN',
   NORMAL = 'NORMAL',
@@ -13,6 +12,7 @@ export interface User {
   balance: number;
   avatar: string;
   createdAt: string;
+  bio?: string; // Adding bio as an optional property
 }
 
 export interface Transaction {
