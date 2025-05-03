@@ -1,10 +1,11 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { DepositRequest } from "../../types";
 import { useToast } from "../../hooks/use-toast";
+import { transactionService } from "@/services/transactionService";
+import { startProgress, doneProgress } from "@/utils/nprogress";
 
 interface DepositRequestCardProps {
   request: DepositRequest;
@@ -23,35 +24,63 @@ const DepositRequestCard: React.FC<DepositRequestCardProps> = ({
 
   const handleApprove = async () => {
     setIsLoading(true);
+    startProgress();
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    onApprove(request.id, comment);
-    
-    toast({
-      title: "Deposit Approved",
-      description: `You've approved a deposit of ${request.amount} coins for ${request.username}.`,
-    });
-    
-    setIsLoading(false);
+    try {
+      await transactionService.updateDepositStatus({
+        id: request.id,
+        status: 'APPROVED',
+        comment: comment
+      });
+      
+      onApprove(request.id, comment);
+      
+      toast({
+        title: "Deposit Approved",
+        description: `You've approved a deposit of ${request.amount} coins for ${request.username}.`,
+      });
+    } catch (error) {
+      console.error('Error approving deposit:', error);
+      toast({
+        title: "Error",
+        description: "Failed to approve deposit request. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+      doneProgress();
+    }
   };
 
   const handleReject = async () => {
     setIsLoading(true);
+    startProgress();
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    onReject(request.id, comment);
-    
-    toast({
-      title: "Deposit Rejected",
-      description: `You've rejected a deposit request from ${request.username}.`,
-      variant: "destructive",
-    });
-    
-    setIsLoading(false);
+    try {
+      await transactionService.updateDepositStatus({
+        id: request.id,
+        status: 'REJECTED',
+        comment: comment
+      });
+      
+      onReject(request.id, comment);
+      
+      toast({
+        title: "Deposit Rejected",
+        description: `You've rejected a deposit request from ${request.username}.`,
+        variant: "destructive",
+      });
+    } catch (error) {
+      console.error('Error rejecting deposit:', error);
+      toast({
+        title: "Error",
+        description: "Failed to reject deposit request. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+      doneProgress();
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -108,7 +137,7 @@ const DepositRequestCard: React.FC<DepositRequestCardProps> = ({
           onClick={handleApprove}
           disabled={isLoading}
         >
-          Approve
+          {isLoading ? "Approving..." : "Approve"}
         </Button>
         <Button 
           className="flex-1 bg-red-600 hover:bg-red-700"
@@ -116,7 +145,7 @@ const DepositRequestCard: React.FC<DepositRequestCardProps> = ({
           onClick={handleReject}
           disabled={isLoading}
         >
-          Reject
+          {isLoading ? "Rejecting..." : "Reject"}
         </Button>
       </CardFooter>
     </Card>

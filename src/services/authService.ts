@@ -64,8 +64,8 @@ export const authService = {
     localStorage.removeItem('meCoinsUser');
   },
   
-  getCurrentUser: (): User | null => {
-    const user = localStorage.getItem('meCoinsUser');
-    return user ? JSON.parse(user) : null;
+  getCurrentUser: async (): Promise<User | null> => {
+    const response = await api.get<User>('/users/me');
+    return response.data;
   }
 };

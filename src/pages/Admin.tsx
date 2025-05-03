@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppLayout from "../components/Layout/AppLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DepositRequestCard from "../components/Admin/DepositRequestCard";
@@ -9,12 +8,40 @@ import { useAuth } from "../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 import { mockDepositRequests, mockWithdrawRequests, mockUsers } from "../data/mockData";
 import { UserRole } from "../types";
+import { userService } from "@/services/userService";
+import { transactionService } from "@/services/transactionService";
+import { startProgress, doneProgress } from "@/utils/nprogress";
 
 const Admin = () => {
   const { user, isAdmin } = useAuth();
-  const [depositRequests, setDepositRequests] = useState(mockDepositRequests);
-  const [withdrawRequests, setWithdrawRequests] = useState(mockWithdrawRequests);
-  const [users, setUsers] = useState(mockUsers);
+  const [depositRequests, setDepositRequests] = useState([]);
+  const [withdrawRequests, setWithdrawRequests] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      startProgress();
+      try {
+        const [deposits, withdrawals, userList] = await Promise.all([
+          transactionService.getDepositRequests(),
+          transactionService.getWithdrawRequests(),
+          userService.getUsers()
+        ]);
+        
+        setDepositRequests(deposits);
+        setWithdrawRequests(withdrawals);
+        setUsers(userList);
+      } catch (error) {
+        console.error('Error fetching admin data:', error);
+      } finally {
+        setIsLoading(false);
+        doneProgress();
+      }
+    };
+
+    fetchData();
+  }, []);
   
   if (!user) {
     return <Navigate to="/" />;
@@ -55,6 +82,16 @@ const Admin = () => {
     // In a real app, this would update the user's banned status in the database
     console.log(`User ${userId} is now ${isBanned ? 'banned' : 'active'}`);
   };
+  
+  if (isLoading) {
+    return (
+      <AppLayout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <p className="text-gray-400">Loading admin data...</p>
+        </div>
+      </AppLayout>
+    );
+  }
   
   return (
     <AppLayout>

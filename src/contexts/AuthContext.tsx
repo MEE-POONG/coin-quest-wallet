@@ -22,11 +22,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   
   // Check for stored user on initial load
   useEffect(() => {
-    const storedUser = authService.getCurrentUser();
-    if (storedUser) {
-      setUser(storedUser);
-    }
-    setIsLoading(false);
+    const fetchStoredUser = async () => {
+      const storedUser = await authService.getCurrentUser();
+      if (storedUser) {
+        setUser(storedUser);
+      }
+      setIsLoading(false);
+    };
+    fetchStoredUser();
   }, []);
   
   const login = async (email: string, password: string): Promise<boolean> => {
