@@ -1,8 +1,9 @@
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Transaction } from "../../types";
 import { mockTransactions } from "../../data/mockData";
+import { transactionService } from "@/services/transactionService";
+import { startProgress, doneProgress } from "@/utils/nprogress";
 
 const getStatusColor = (status: string) => {
   switch (status) {
@@ -33,15 +34,33 @@ const getTypeIcon = (type: string) => {
 };
 
 const TransactionList = () => {
-  const transactions = mockTransactions;
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      startProgress();
+      try {
+        const data = await transactionService.getTransactions();
+        setTransactions(data);
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
+      } finally {
+        setIsLoading(false);
+        doneProgress();
+      }
+    };
+
+    fetchTransactions();
+  }, []);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric', 
-      hour: '2-digit', 
-      minute: '2-digit' 
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
     });
   };
 
@@ -52,12 +71,14 @@ const TransactionList = () => {
       </CardHeader>
       <CardContent className="p-0">
         <div className="space-y-1">
-          {transactions.length === 0 ? (
+          {isLoading ? (
+            <div className="py-4 text-center text-gray-400">Loading transactions...</div>
+          ) : transactions.length === 0 ? (
             <div className="py-4 text-center text-gray-400">No transactions yet</div>
           ) : (
             <div className="overflow-y-auto max-h-[300px] scrollbar-thin">
               {transactions.map((transaction) => (
-                <div 
+                <div
                   key={transaction.id}
                   className="flex items-center justify-between p-3 hover:bg-white/5 transition-colors border-b border-white/5 last:border-0"
                 >

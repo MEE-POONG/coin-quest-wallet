@@ -1,8 +1,8 @@
 
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useAuth } from "../../contexts/AuthContext";
 import { Coins } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const WalletCard = () => {
   const { user } = useAuth();

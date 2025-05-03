@@ -1,10 +1,9 @@
-
 import api from './api';
 import { Transaction, DepositRequest, WithdrawRequest } from '../types';
 
 export interface CreateDepositRequest {
   amount: number;
-  slipImage: File;
+  slipImage: string;
 }
 
 export interface CreateWithdrawRequest {
@@ -26,14 +25,9 @@ export const transactionService = {
 
   // Deposits
   createDepositRequest: async (data: CreateDepositRequest): Promise<DepositRequest> => {
-    const formData = new FormData();
-    formData.append('amount', data.amount.toString());
-    formData.append('slipImage', data.slipImage);
-    
-    const response = await api.post<DepositRequest>('/transactions/deposits', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+    const response = await api.post<DepositRequest>('/transactions/deposits', {
+      amount: data.amount,
+      slipImage: data.slipImage
     });
     return response.data;
   },

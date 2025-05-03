@@ -5,11 +5,11 @@ import WalletCard from "../components/Dashboard/WalletCard";
 import TransactionList from "../components/Dashboard/TransactionList";
 import DepositRequestForm from "../components/Dashboard/DepositRequestForm";
 import WithdrawRequestForm from "../components/Dashboard/WithdrawRequestForm";
-import { useAuth } from "../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { UserRound } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Dashboard = () => {
   const { user, isPremium } = useAuth();

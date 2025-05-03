@@ -20,7 +20,7 @@ const DepositRequestForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!amount || !slipImage) {
       toast({
         title: "Error",
@@ -29,20 +29,33 @@ const DepositRequestForm = () => {
       });
       return;
     }
-    
+
     setIsLoading(true);
-    
+
     try {
+
+      const uploadUrl = '/upload-image';
+      const formData = new FormData();
+      formData.append('file', slipImage);
+      const uploadResponse = await fetch(uploadUrl, {
+        method: 'POST',
+        body: formData
+      });
+
+      const { result } = await uploadResponse.json();
+
+      const image = `https://imagedelivery.net/QZ6TuL-3r02W7wQjQrv5DA/${result.id}/public`;
+
       await transactionService.createDepositRequest({
         amount: Number(amount),
-        slipImage: slipImage
+        slipImage: image
       });
-      
+
       toast({
         title: "Deposit Request Submitted",
         description: "Your deposit request has been sent for review.",
       });
-      
+
       // Reset form
       setAmount("");
       setSlipImage(null);
@@ -77,7 +90,7 @@ const DepositRequestForm = () => {
               required
             />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="slip-image">Upload Bank Transfer Slip</Label>
             <div className="border-2 border-dashed border-nft-purple/30 rounded-lg p-6 text-center cursor-pointer hover:border-nft-purple/50 transition-colors">
@@ -103,15 +116,15 @@ const DepositRequestForm = () => {
               </label>
             </div>
           </div>
-          
-          <Button 
-            type="submit" 
+
+          <Button
+            type="submit"
             className="w-full bg-nft-purple hover:bg-nft-purple/80"
             disabled={isLoading}
           >
             {isLoading ? "Submitting..." : "Submit Deposit Request"}
           </Button>
-          
+
           <p className="text-xs text-center text-gray-400 mt-2">
             Your request will be reviewed by an admin.
             You'll receive a notification once it's approved.
