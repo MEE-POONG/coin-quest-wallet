@@ -119,7 +119,8 @@ const UserManagementCard: React.FC<UserManagementCardProps> = ({
             <Button 
               className={`w-full ${isBanned ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}`}
               onClick={handleToggleStatus}
-              disabled={isLoading || user.role === UserRole.ADMIN}
+              // eslint-disable-next-line no-constant-binary-expression
+              disabled={true || isLoading || user.role === UserRole.ADMIN}
             >
               {isBanned ? "Unban User" : "Ban User"}
             </Button>

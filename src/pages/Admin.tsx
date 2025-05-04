@@ -99,9 +99,9 @@ const Admin = () => {
         <h1 className="text-3xl font-bold mb-6">Admin Panel</h1>
         
         <Tabs defaultValue="deposits" className="space-y-6">
-          <TabsList className="grid grid-cols-3">
+          <TabsList className="grid grid-cols-2">
             <TabsTrigger value="deposits">Deposit Requests</TabsTrigger>
-            <TabsTrigger value="withdrawals">Withdrawal Requests</TabsTrigger>
+            {/* <TabsTrigger value="withdrawals">Withdrawal Requests</TabsTrigger> */}
             <TabsTrigger value="users">User Management</TabsTrigger>
           </TabsList>
           

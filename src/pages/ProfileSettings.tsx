@@ -214,7 +214,7 @@ const ProfileSettings = () => {
                       )}
                     />
                     
-                    <div className="flex justify-end">
+                    {/* <div className="flex justify-end">
                       <Button 
                         type="submit" 
                         disabled={isSubmitting}
@@ -222,13 +222,13 @@ const ProfileSettings = () => {
                       >
                         {isSubmitting ? "Saving..." : "Save Changes"}
                       </Button>
-                    </div>
+                    </div> */}
                   </form>
                 </Form>
               </CardContent>
             </Card>
             
-            <Card className="glass-card nft-gradient-border">
+            <Card className="glass-card nft-gradient-border hidden">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Shield className="h-5 w-5" />
