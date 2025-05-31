@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { login, isLoading } = useAuth();
   const { toast } = useToast();
@@ -15,17 +15,17 @@ const LoginForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!email || !password) {
+    if (!username || !password) {
       toast({
         title: "Error",
-        description: "Email and password are required",
+        description: "Username and password are required",
         variant: "destructive",
       });
       return;
     }
     
     try {
-      const success = await login(email, password);
+      const success = await login(username, password);
       
       if (success) {
         toast({
@@ -51,13 +51,13 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="username">Username</Label>
         <Input
-          id="email"
-          type="email"
-          placeholder="your.email@example.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          id="username"
+          type="text"
+          placeholder="your.username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           className="bg-black/30 border-nft-purple/30"
           required
         />

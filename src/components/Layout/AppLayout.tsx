@@ -100,7 +100,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                 <span className="hidden md:inline">{user?.username}</span>
               </Button>
               
-              <div className="absolute right-0 mt-1 w-48 bg-black/90 backdrop-blur-xl border border-white/10 rounded-lg shadow-lg invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300">
+              <div className="absolute right-0 mt-1 w-60 bg-black/90 backdrop-blur-xl border border-white/10 rounded-lg shadow-lg invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300">
                 <div className="p-3 border-b border-white/10">
                   <p className="text-sm font-medium">{user?.username}</p>
                   <p className="text-xs text-gray-400">{user?.email}</p>

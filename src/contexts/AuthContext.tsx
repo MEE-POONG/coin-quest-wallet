@@ -7,7 +7,7 @@ import { authService } from '../services/authService';
 interface AuthContextType {
   user: User | null;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
   isAdmin: boolean;
   isPremium: boolean;
@@ -32,11 +32,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     fetchStoredUser();
   }, []);
   
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (username: string, password: string): Promise<boolean> => {
     setIsLoading(true);
     
     try {
-      const user = await authService.login({ email, password });
+      const user = await authService.login({ username, password });
       setUser(user);
       setIsLoading(false);
       return true;

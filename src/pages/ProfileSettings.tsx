@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Navigate } from "react-router-dom";
@@ -11,7 +12,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "../hooks/use-toast";
 import { Pencil, User, UserRound, Shield } from "lucide-react";
-import api from "../services/api";
 
 const ProfileSettings = () => {
   const { user, updateUser } = useAuth();

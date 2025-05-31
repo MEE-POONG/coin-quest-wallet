@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     proxy: {
       '/api': {
-        target: 'http://localhost:3000', // เปลี่ยนเป็น URL ของ API ที่ต้องการ
+        target: 'https://api-me-coins-wallet.me-prompt-technology.com', // เปลี่ยนเป็น URL ของ API ที่ต้องการ
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       },
