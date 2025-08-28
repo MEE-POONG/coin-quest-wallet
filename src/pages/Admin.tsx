@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DepositRequestCard from "../components/Admin/DepositRequestCard";
 import WithdrawRequestCard from "../components/Admin/WithdrawRequestCard";
 import UserManagementCard from "../components/Admin/UserManagementCard";
+import ApprovalStatus from "../components/Dashboard/ApprovalStatus";
 import { useAuth } from "../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 import { mockDepositRequests, mockWithdrawRequests, mockUsers } from "../data/mockData";
@@ -99,10 +100,11 @@ const Admin = () => {
         <h1 className="text-3xl font-bold mb-6">Admin Panel</h1>
         
         <Tabs defaultValue="deposits" className="space-y-6">
-          <TabsList className="grid grid-cols-2">
+          <TabsList className="grid grid-cols-3">
             <TabsTrigger value="deposits">Deposit Requests</TabsTrigger>
             {/* <TabsTrigger value="withdrawals">Withdrawal Requests</TabsTrigger> */}
             <TabsTrigger value="users">User Management</TabsTrigger>
+            <TabsTrigger value="approval-status">Approval status🪙</TabsTrigger>
           </TabsList>
           
           <TabsContent value="deposits">
@@ -154,6 +156,10 @@ const Admin = () => {
                 />
               ))}
             </div>
+          </TabsContent>
+          
+          <TabsContent value="approval-status">
+            <ApprovalStatus />
           </TabsContent>
         </Tabs>
       </div>
